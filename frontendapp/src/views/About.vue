@@ -1,19 +1,55 @@
 <template>
   <div class="about">
 
-      <b-alert show>О нас!!!</b-alert>
 
-    <h1>О нас!!!</h1>
-    <p>
-      Lorem Ipsum - это текст-"рыба", часто используемый в печати и вэб-дизайне.
-      Lorem Ipsum является стандартной "рыбой" для текстов на латинице с начала XVI века.
-      В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов,
-      используя Lorem Ipsum для распечатки образцов. Lorem Ipsum не только успешно пережил без
-      заметных изменений пять веков, но и перешагнул в электронный дизайн. Его популяризации в
-      новое время послужили публикация листов Letraset с образцами Lorem Ipsum в 60-х годах и, в
-      более недавнее время, программы электронной вёрстки типа Aldus PageMaker, в шаблонах которых
-      используется Lorem Ipsum.
-    </p>
+    <h1>{{data_about.header}}</h1>
+    <div v-if="edit? false: true">
+      <p v-html="data_about.about_info">
+      </p>
+      <b-button variant="outline-primary" @click="edit = true">Редактировать</b-button>
+    </div>
+
+    <div v-else>
+      <p>
+        <b-form-textarea
+      id="textarea"
+      v-model="data_about.about_info"
+      placeholder="Редактировать..."
+      rows="3"
+      max-rows="6"
+    ></b-form-textarea>
+      </p>
+
+      <b-button variant="outline-primary" class="m-1" @click="edit = false">Отмена</b-button>
+      <b-button variant="success" class="m-1" @click="updated">Обновить</b-button>
+    </div>
+
 
   </div>
 </template>
+<script>
+  export default {
+        name: "resultsComponent",
+        data() {
+            return {
+                edit: false,
+                data_about:[]
+            }
+        },
+        methods:{
+          updated:function () {
+            this.axios.put('/api/about/',this.data_about).then(response => {
+                this.about_info = response.data[0];
+
+            }).catch().finally(() => {this.edit = false})
+          }
+        },
+        mounted() {
+            this.result = '';
+            this.axios.get('/api/about/').then(response => {
+                this.data_about = response.data[0];
+
+            }).catch().finally()
+        }
+    }
+</script>

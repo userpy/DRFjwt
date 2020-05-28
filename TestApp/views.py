@@ -8,7 +8,7 @@ from TestApp.serializers import  TestSerializer, TestOnlyTestNameFieldSerializer
 # Create your views here.
 
 class AlbumAPIView(views.APIView):
-    permission_classes = (IsAuthenticated,)
+    #permission_classes = (IsAuthenticated,)
     def get_objects(self, test_name):
         if test_name:
             tests = Test.objects.filter(test_name=str(test_name))
@@ -25,12 +25,12 @@ class AlbumAPIView(views.APIView):
         return Response(serializer.data)
 
 class TestListAPIView(generics.ListAPIView):
-    permission_classes = (IsAuthenticated,)
+    #permission_classes = (IsAuthenticated,)
     queryset = Test.objects.all()
     serializer_class = TestOnlyTestNameFieldSerializer
 
 class ResultsAPIView(views.APIView):
-    parser_classes = (JSONParser, FormParser)
+    #parser_classes = (JSONParser, FormParser)
     permission_classes = (IsAuthenticated,)
     def get(self, request, format=None):
         results = Results.objects.filter(username=request.user)

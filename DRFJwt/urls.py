@@ -13,6 +13,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls import static
+from django.conf import settings
 
 from django.contrib import admin
 from authApp.views import MyTokenObtainPairView
@@ -20,7 +22,11 @@ from django.urls import path, include,re_path
 from rest_framework_simplejwt.views import (
     TokenRefreshView, TokenVerifyView
 )
+
 from TestApp.views import AlbumAPIView, TestListAPIView, ResultsAPIView
+from aboutApp.views import AboutAPIView
+from django.conf.urls.static import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/auth/login/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
@@ -29,5 +35,9 @@ urlpatterns = [
     path('api/auth/', include('djoser.urls')),
     path('api/tests/name/questions/', AlbumAPIView.as_view(), name='AlbumAPIView'),
     path('api/tests/name/',TestListAPIView.as_view(),name='AlbumListAPIView'),
-    path('api/tests/results/',ResultsAPIView.as_view(), name='ResultsAPIView')
+    path('api/tests/results/',ResultsAPIView.as_view(), name='ResultsAPIView'),
+    path('api/about/', AboutAPIView.as_view(),name='About')
     ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += staticfiles_urlpatterns()
