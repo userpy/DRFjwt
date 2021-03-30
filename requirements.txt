@@ -15,7 +15,7 @@ decorator==4.4.2
 defusedxml==0.6.0
 distro==1.4.0
 distro-info===0.23ubuntu1
-Django==3.0.5
+Django==3.0.12
 django-templated-mail==1.1.1
 djangorestframework==3.11.0
 djangorestframework-simplejwt==4.4.0
